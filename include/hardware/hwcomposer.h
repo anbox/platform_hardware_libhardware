@@ -289,6 +289,8 @@ typedef struct hwc_layer_1 {
         };
     };
 
+    char name[HWC_LAYER_NAME_MAX_LENGTH];
+
 #ifdef __LP64__
     /*
      * For 64-bit mode, this struct is 120 bytes (and 8-byte aligned), and needs
