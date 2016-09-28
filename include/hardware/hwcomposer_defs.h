@@ -51,6 +51,8 @@ __BEGIN_DECLS
  */
 #define HWC_HARDWARE_COMPOSER "composer"
 
+#define HWC_LAYER_NAME_MAX_LENGTH 128
+
 typedef struct hwc_color {
     uint8_t r;
     uint8_t g;
