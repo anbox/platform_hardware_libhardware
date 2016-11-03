@@ -71,7 +71,7 @@ qemu_pipe_open(const char*  pipeName)
 
 #if 0
     fd = open("/dev/qemu_pipe", O_RDWR);
-#elif !defined(QEMU_PIPE_FROM_ADB)
+#else
     fd = socket(AF_LOCAL, SOCK_STREAM, 0);
 
     struct sockaddr_un addr;
@@ -80,7 +80,13 @@ qemu_pipe_open(const char*  pipeName)
     strncpy(addr.sun_path, "/dev/qemu_pipe", sizeof(addr.sun_path));
 
     if (connect(fd, (struct sockaddr*) &addr, sizeof(addr)) < 0) {
+#if !defined(QEMU_PIPE_FROM_ADB)
         close(fd);
+#else
+        // Adb renames 'close' to 'unix_close' and marks the original
+        // 'close' as not available.
+        unix_close(fd);
+#endif
         fd = -1;
     }
 #endif
